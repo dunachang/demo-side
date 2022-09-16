@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>今日天氣預報</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    body {
+      background-image: url('./img/01.jpeg');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    main {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .container {
+      width: 1100px;
+      height: 600px;
+      /* background-color: aliceblue; */
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .nav {
+      width: 600px;
+      height: 75px;
+      text-align: center;
+      /* margin-bottom: -30px; */
+      font-size: 30px;
+      font-family: '微軟正黑體';
+      border-radius: 30px;
+      /* background-color: white; */
+      line-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .btn {
+      width: 80px;
+      height: 30px;
+      border-radius: 20px;
+      border: none;
+    }
+
+    .btn:focus {
+      box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    }
+
+    .btn:hover {
+      box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      box-shadow: #D6D6E7 0 3px 7px inset;
+      transform: translateY(2px);
+    }
+
+    .box {
+      width: 150px;
+      height: 200px;
+      background-color: whitesmoke;
+      border-radius: 15px 0;
+      box-shadow: 1px 10px 15px #5B5B5B;
+      margin: 20px;
+    }
+
+    .top {
+      width: 110px;
+      height: 125px;
+      background-color: whitesmoke;
+      border-radius: 15px 0 0 0;
+      font-family: 'Times New Roman', '微軟正黑體', Times, serif;
+      text-align: center;
+      color: #868f96;
+      line-height: 65px;
+      margin: auto;
+      position: relative;
+    }
+
+    .down {
+      width: 150px;
+      height: 75px;
+      border-radius: 0 0 14px 0;
+      line-height: 15px;
+      color: whitesmoke;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .north {
+      background-color: #8fd3f4;
+    }
+
+    .middle {
+      background-color: #fddb92;
+    }
+
+    .south {
+      background-color: #cfc7f8;
+    }
+
+    .east {
+      background-color: #feada6;
+    }
+
+    .outside {
+      background-color: #abecd6;
+    }
+
+    .grey {
+      background-color: #5B5B5B;
+    }
+
+    #weather {
+      width: 70px;
+      height: 70px;
+      /* background-color: #868f96; */
+      position: absolute;
+      left: 48px;
+      bottom: 20px;
+      background-size: contain;
+      /* background-image: url(./img/rainy-1.png); */
+    }
+
+    footer {
+      width: 100vw;
+      height: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: white;
+      z-index: -1;
+      margin-top: 650px;
+      position: fixed;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="nav">
+      <button class="btn taiwan" onclick="filter1('all')">全台</button>
+      <button class="btn north" onclick="filter1(north_city)">北部</button>
+      <button class="btn middle" onclick="filter1(middle_city)">中部</button>
+      <button class="btn south" onclick="filter1(south_city)">南部</button>
+      <button class="btn east" onclick="filter1(east_city)">東部</button>
+      <button class="btn outside" onclick="filter1(outside_city)">離島</button>
+    </div>
+    <div class="container">
+      <!-- <div class="box">
+        <div class="top">
+          <div id="weather">
+            <img id="weather" src="./img/rainy-1.png" alt="">
+          </div>
+          <h1>27°C</h1>
+          <hr>
+          <h3>台北市</h3>
+        </div>
+        <div class="down north">
+          <br>
+          <p>Rainy</p>
+          <p><i class="fa-solid fa-cloud-rain"></i> 30%</p>
+          <p>舒適</p>
+        </div>
+      </div>
+      <div class="box">
+        <div class="top">
+          <div id="weather">
+            <img id="weather" src="./img/cloud-1.png" alt="">
+          </div>
+          <h1>29°C</h1>
+          <hr>
+          <h3>台中市</h3>
+        </div>
+        <div class="down middle">
+          <br>
+          <p>Cloudy</p>
+          <p><i class="fa-solid fa-cloud-rain"></i> 10%</p>
+          <p>舒適至悶熱</p>
+        </div>
+      </div>
+      <div class="box">
+        <div class="top">
+          <div id="weather">
+            <img id="weather" src="./img/sun-1.png" alt="">
+          </div>
+          <h1>30°C</h1>
+          <hr>
+          <h3>高雄市</h3>
+        </div>
+        <div class="down south">
+          <br>
+          <p>Sunny</p>
+          <p><i class="fa-solid fa-sun"></i> 高紫外線</p>
+          <p>悶熱</p>
+        </div>
+      </div>
+      <div class="box">
+        <div class="top">
+          <div id="weather">
+            <img id="weather" src="./img/sun-rain-1.png" alt="">
+          </div>
+          <h1>32°C</h1>
+          <hr>
+          <h3>花蓮縣</h3>
+        </div>
+        <div class="down east">
+          <br>
+          <p>Sunny</p>
+          <p><i class="fa-solid fa-cloud-rain"></i> 20%</p>
+          <p>十分晴朗</p>
+        </div>
+      </div> -->  
+    </div>
+    <footer>
+      此網站為教育用 This webside is for education only <br>
+      勞動部中彰投分屬 - 前端 UI 與 JS 框架 (Vue) 工程師培訓班 <br>
+      <br>
+    </footer>
+    </main>
+
+
+
+  <script>
+    const container = document.querySelector('.container')
+    const north_city = ['臺北市', '新北市', '基隆市', '桃園市', '新竹市', '新竹縣', '宜蘭縣']
+    const middle_city = ['苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣']
+    const south_city = ['嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '澎湖縣']
+    const east_city = ['花蓮縣', '臺東縣']
+    const outside_city = ['金門縣', '連江縣']
+    const taiwan_city = [north_city, middle_city, south_city, east_city, outside_city]
+    const middle = document.querySelector('.middle')
+    const north = document.querySelector('.north')
+    const south = document.querySelector('.south')
+    const east = document.querySelector('.east')
+    const outside = document.querySelector('.outside')
+    const btn = document.querySelector('.btn')
+    const down = document.querySelectorAll('.down')
+
+
+
+
+    var result = fetch('https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-AA300EC1-31BA-465E-B669-6CA2C320A195')
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log(myJson.records.location[11]);
+
+        for (let index = 0; index < myJson.records.location.length; index++) {
+
+          let location = myJson.records.location[index].locationName
+          let minTemp = myJson.records.location[index].weatherElement[2].time[0].parameter.parameterName
+          let maxTemp = myJson.records.location[index].weatherElement[4].time[0].parameter.parameterName
+          let weather = myJson.records.location[index].weatherElement[0].time[0].parameter.parameterName
+          let rain = myJson.records.location[index].weatherElement[1].time[0].parameter.parameterName
+          let feel = myJson.records.location[index].weatherElement[3].time[0].parameter.parameterName
+          // 如果降雨機率小於 25% 就是晴天，小於等於 50% 陰天，大於 50% 就是雨天
+          let imgPath
+
+          if (rain < 15) {
+            imgPath = './img/sun.svg';
+          } else if (15 <= rain && rain < 25) {
+            imgPath = './img/sun-rain.svg';
+          } else if (25 <= rain && rain < 50) {
+            imgPath = './img/cloud.svg';
+          } else if (50 <= rain && rain < 70) {
+            imgPath = './img/rainy-small.svg';
+          } else {
+            imgPath = './img/rainy-big.svg';
+          }
+
+          container.innerHTML = container.innerHTML + `
+        <div class="box" data-city="${location}">
+        <div class="top">
+          <div id="weather">
+            <img id="weather" src=${imgPath} alt="">
+          </div>
+          <h2>${minTemp} ~ ${maxTemp}°C</h2>
+          <hr>
+          <h3>${location}</h3>
+        </div>
+        <div class="down grey">
+          <br>
+          <p>${weather}</p>
+          <p><i class="fa-solid fa-cloud-rain"></i> ${rain}%</p>
+          <p>${feel}</p>
+        </div>
+      </div>
+        `
+
+          // var down = document.querySelectorALL('.down')
+          // allcity.forEach(citys => {
+          //   if (city == north_city) {
+          //     down.classList.add('north')
+          //   } else if (city == middle_city) {
+          //     down.classList.add('middle')
+          //   } else if (city == south_city) {
+          //     down.classList.add('south')
+          //   } else if (city == east_city) {
+          //     down.classList.add('east')
+          //   } else {
+          //     down.classList.add('outside')
+          //   }
+          // })
+
+
+        }
+      });
+
+    // 我把所有縣市印出來, 然後把不想看到的加上display:none  -> 
+
+
+    function filter1(areas) {
+      var allcity = document.querySelectorAll('.box')
+
+      //將所有城市一筆一筆叫出來
+      allcity.forEach(city => {
+        //如果條件是all(全部), 就直接給block
+        if (areas == 'all') {
+          city.style.display = 'block'
+        } else {
+          //先假設所有城市都不顯示
+          city.style.display = 'none'
+          areas.forEach(area => {
+            //將條件拿出來比較, 如果條件中的任何一個縣市有符合就加上block顯示出來
+            if (city.dataset.city == area) {
+              city.style.display = 'block'
+            }
+          })
+        }
+
+
+
+
+      });
+
+
+
+
+
+    }
+
+
+
+
+// for(let )
+//     // 根據按下的按鈕選定條件, 只將符合條件的縣市做出卡片 
+//     function filter2(areas) {
+
+
+
+
+//     }
+
+
+  </script>
+</body>
+
+</html>
